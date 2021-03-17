@@ -1,11 +1,9 @@
 {
   "name": "sscrll",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "library for smooth scroll with vanilla-js",
   "main": "sscrll.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/seungrodotlee/sscrll.git"

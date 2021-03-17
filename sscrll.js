@@ -4,6 +4,7 @@ sscrll._currentScroll = 0;
 sscrll._ease = 0.075;
 sscrll._container = null;
 sscrll._inner = null;
+sscrll._height = 0;
 
 sscrll.getCurrentScroll = () => {
   return sscrll._currentScroll;
@@ -25,6 +26,14 @@ sscrll.setContainer = (el) => {
   }
 };
 
+sscrll.getHeight = () => {
+  return sscrll._height;
+};
+
+sscrll.setHeight = (value) => {
+  sscrll._height = value;
+};
+
 (function () {
   "use strict";
 
@@ -40,6 +49,12 @@ sscrll.setContainer = (el) => {
   let scrollRequested = 0;
   let rafId = undefined;
   let rafActive = false;
+
+  let children = sscrll._container.children;
+  let lastChild = children[children.length - 1];
+
+  sscrll._height =
+    lastChild.offsetTop + lastChild.offsetHeight - sscrll._container.offsetTop;
 
   let startAnimation = () => {
     if (!rafActive) {
@@ -80,6 +95,12 @@ sscrll.setContainer = (el) => {
       scrollRequested = 0;
     }
 
+    if (scrollRequested >= sscrll._height - window.innerHeight) {
+      scrollRequested = sscrll._height - window.innerHeight;
+    }
+
     startAnimation();
   });
 })();
+
+window.sscrll = sscrll;
