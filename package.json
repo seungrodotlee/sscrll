@@ -1,6 +1,6 @@
 {
   "name": "sscrll",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "library for smooth scroll with vanilla-js",
   "main": "sscrll.js",
   "scripts": {},

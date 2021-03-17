@@ -50,8 +50,7 @@ sscrll.setHeight = (value) => {
   let rafId = undefined;
   let rafActive = false;
 
-  let children = sscrll._container.children;
-  let lastChild = children[children.length - 1];
+  let lastChild = sscrll._container.lastElementChild;
 
   sscrll._height =
     lastChild.offsetTop + lastChild.offsetHeight - sscrll._container.offsetTop;
