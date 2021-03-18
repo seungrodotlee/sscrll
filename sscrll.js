@@ -5,6 +5,7 @@ sscrll._ease = 0.075;
 sscrll._container = null;
 sscrll._inner = null;
 sscrll._height = 0;
+sscrll._documentSizer = null;
 
 sscrll.getCurrentScroll = () => {
   return sscrll._currentScroll;
@@ -32,6 +33,10 @@ sscrll.getHeight = () => {
 
 sscrll.setHeight = (value) => {
   sscrll._height = value;
+  sscrll._documentSizer.setAttribute(
+    "style",
+    `visibility: hidden; width: 1px; height: ${sscrll._height}px;`
+  );
 };
 
 (function () {
@@ -44,7 +49,7 @@ sscrll.setHeight = (value) => {
   sscrll._container = document.querySelector(".scroll-container");
   sscrll._container.setAttribute(
     "style",
-    "height: 100%; width: 100%; overflow: hidden; transform: translateY(0)"
+    "position: fixed; height: 100%; width: 100%; overflow: hidden; transform: translateY(0)"
   );
   let scrollRequested = 0;
   let rafId = undefined;
@@ -54,6 +59,13 @@ sscrll.setHeight = (value) => {
 
   sscrll._height =
     lastChild.offsetTop + lastChild.offsetHeight - sscrll._container.offsetTop;
+
+  sscrll._documentSizer = document.createElement("div");
+  sscrll._documentSizer.setAttribute(
+    "style",
+    `position: absolute; top: 0; left: 0; z-index: -1; pointer-events: none; width: 1px; height: ${sscrll._height}px;`
+  );
+  document.body.appendChild(sscrll._documentSizer);
 
   let startAnimation = () => {
     if (!rafActive) {
@@ -87,8 +99,8 @@ sscrll.setHeight = (value) => {
     );
   };
 
-  window.addEventListener("mousewheel", (e) => {
-    scrollRequested += e.deltaY;
+  window.addEventListener("scroll", () => {
+    scrollRequested = window.scrollY || window.pageYOffset;
 
     if (scrollRequested <= 0) {
       scrollRequested = 0;
